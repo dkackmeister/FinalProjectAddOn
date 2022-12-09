@@ -1,14 +1,18 @@
+import math
 from PyQt5.QtWidgets import *
 from dimensional_calculator import *
 
 QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
 QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
 
+
 class Controller(QMainWindow, Ui_MainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.primary_number = 0.0
+        self.secondary_number = 0.0
+        self.tertiary_number = 0.0
         self.setupUi(self)
-
         self.button_calculate.clicked.connect(lambda: self.calculate())
         self.button_reset.clicked.connect(lambda: self.reset())
         self.select_circle.clicked.connect(lambda: self.circle())
@@ -17,165 +21,142 @@ class Controller(QMainWindow, Ui_MainWindow):
         self.select_triangle.clicked.connect(lambda: self.triangle())
 
     def calculate(self):
-        primary_dimension = self.text_input_primary.text()
-        secondary_dimension = self.text_input_secondary.text()
-        tertiary_dimension = self.text_input_tertiary.text()
+        try:
+            self.primary_number = float(self.text_input_primary.text())
+        except ValueError:
+            self.text_input_primary.setText('Please enter a number')
+            return None
 
-        self.label_area.setText()
-        self.label_perimeter.setText()
+        if self.text_input_secondary.isEnabled():
+            try:
+                self.secondary_number = float(self.text_input_secondary.text())
+            except ValueError:
+                self.text_input_secondary.setText('Please enter a number')
+                return None
+        if self.text_input_tertiary.isEnabled():
+            try:
+                self.tertiary_number = float(self.text_input_tertiary.text())
+            except ValueError:
+                self.text_input_tertiary.setText('Please enter a number')
+                return None
+
+        if self.select_circle.isChecked():
+            self.label_area.setText('{:.2f}'.format(self.a_circle()))
+            self.label_perimeter.setText('{:.2f}'.format(self.p_circle()))
+        elif self.select_rectangle.isChecked():
+            self.label_area.setText('{:.2f}'.format(self.a_rectangle()))
+            self.label_perimeter.setText('{:.2f}'.format(self.p_rectangle()))
+        elif self.select_square.isChecked():
+            self.label_area.setText('{:.2f}'.format(self.a_square()))
+            self.label_perimeter.setText('{:.2f}'.format(self.p_square()))
+        elif self.select_triangle.isChecked():
+            self.label_area.setText('{:.2f}'.format(self.a_triangle()))
+            self.label_perimeter.setText('{:.2f}'.format(self.p_triangle()))
 
     def circle(self):
         self.label_primary.setText('Radius')
         self.label_secondary.setText('')
         self.label_tertiary.setText('')
+
+        self.text_input_secondary.setEnabled(False)
+        self.text_input_tertiary.setEnabled(False)
+
+        self.text_input_primary.setText('')
+        self.text_input_secondary.setText('')
+        self.text_input_tertiary.setText('')
+        self.label_area.setText('')
+        self.label_perimeter.setText('')
+
     def rectangle(self):
         self.label_primary.setText('Length')
         self.label_secondary.setText('Width')
         self.label_tertiary.setText('')
 
+        self.text_input_secondary.setEnabled(True)
+        self.text_input_tertiary.setEnabled(False)
+
+        self.text_input_primary.setText('')
+        self.text_input_secondary.setText('')
+        self.text_input_tertiary.setText('')
+        self.label_area.setText('')
+        self.label_perimeter.setText('')
+
     def square(self):
         self.label_primary.setText('Length')
         self.label_secondary.setText('')
         self.label_tertiary.setText('')
+
+        self.text_input_secondary.setEnabled(False)
+        self.text_input_tertiary.setEnabled(False)
+
+        self.text_input_primary.setText('')
+        self.text_input_secondary.setText('')
+        self.text_input_tertiary.setText('')
+        self.label_area.setText('')
+        self.label_perimeter.setText('')
     def triangle(self):
         self.label_primary.setText('Side A')
         self.label_secondary.setText('Side B')
         self.label_tertiary.setText('Side C')
 
+        self.text_input_secondary.setEnabled(True)
+        self.text_input_tertiary.setEnabled(True)
 
+        self.text_input_primary.setText('')
+        self.text_input_secondary.setText('')
+        self.text_input_tertiary.setText('')
+        self.label_area.setText('')
+        self.label_perimeter.setText('')
 
+    def p_circle(self):
+        perimeter = float(2 * math.pi * self.primary_number)
+        return perimeter
 
+    def p_rectangle(self):
+        perimeter = 2 * (self.primary_number + self.secondary_number)
+        return perimeter
 
+    def p_square(self):
+        perimeter = 4 * self.primary_number
+        return perimeter
 
-# import math
-# from dimensional_calculator import *
-#
-# def p_circle(radius):
-#     perimeter = float(2 * math.pi * radius)
-#     return perimeter
-#
-#
-# def p_rectangle(length, width):
-#     perimeter = 2 * (length + width)
-#     return perimeter
-#
-#
-# def p_square(length):
-#     perimeter = 4 * length
-#     return perimeter
-#
-#
-# def p_triangle(side_a, side_b, side_c):
-#     perimeter = side_a + side_b + side_c
-#     return perimeter
-#
-#
-#
-# def a_circle(radius):
-#     area = math.pi * radius * radius
-#     return area
-#
-#
-# def a_rectangle(length, width):
-#     area = length * width
-#     return area
-#
-#
-# def a_square(length):
-#     area = length * length
-#     return area
-#
-#
-# def a_triangle(height, base):
-#     area = (base * height) / 2
-#     return area
-# def selection():
-# #     print('----------------------')
-# #     print('SELECT SHAPE')
-# #     print('----------------------')
-# #     print('1 - Circle')
-# #     print('2 - Rectangle')
-# #     print('3 - Square')
-# #     print('4 - Triangle')
-# #     shape = 0
-# #     # Code to check that a valid shape has been selected
-# #     while True:
-# #         shape_input = input('Shape number: ')
-# #         try:
-# #             shape = int(shape_input)
-# #         except ValueError:
-# #             print('Please enter an integer (1-4)')
-# #         if shape >= 1 and shape <=4:
-# #             break
-#     return shape
-#
-#
-# def main():
-#     while True:
-#         # Check that input is in valid range
-#         user_shape = selection()
-#         comp_select = int(input('Computation (Area = 1 or Perimeter = 2): '))
-#
-#         while comp_select < 1 or comp_select > 2:
-#             comp_select = int(input('Enter 1 or 2: '))
-#
-#         #If Area
-#         if comp_select == 1:
-#             #Circle Area
-#             if user_shape == 1:
-#                 radius = float(input('Circle radius: '))
-#                 c_area = '{:.2f}'.format(a_circle(radius))
-#                 print(f'Circle area = {c_area}')
-#
-#             #Rectangle Area
-#             elif user_shape == 2:
-#                 length = float(input('Rectangle length: '))
-#                 width = float(input('Rectangle width: '))
-#                 r_area = '{:.2f}'.format(a_rectangle(length, width))
-#                 print(f'Rectangle area: {r_area}')
-#
-#             elif user_shape == 3:
-#                 length = float(input('Square length: '))
-#                 s_area = '{:.2f}'.format(a_square(length))
-#                 print(f'Square area: {s_area}')
-#
-#             elif user_shape == 4:
-#                 base = float(input('Triangle side 1: '))
-#                 height = float(input('Triangle side 2: '))
-#                 t_area = '{:.2f}'.format(a_triangle(height, base))
-#                 print(f'Triangle area: {t_area}')
-#
-#         #if Perimeter
-#         elif comp_select == 2:
-#             if user_shape == 1:
-#                 radius = float(input('Circle radius: '))
-#                 c_perimeter = '{:.2f}'.format(p_circle(radius))
-#                 print(f'Circle perimeter = {c_perimeter}')
-#
-#             elif user_shape == 2:
-#                 length = float(input('Rectangle length: '))
-#                 width = float(input('Rectangle width: '))
-#                 r_perimeter = '{:.2f}'.format(p_rectangle(length, width))
-#                 print(f'Rectangle perimeter: {r_perimeter}')
-#
-#             elif user_shape == 3:
-#                 length = float(input('Square length: '))
-#                 s_perimeter = '{:.2f}'.format(p_square(length))
-#                 print(f'Square perimeter : {s_perimeter}')
-#
-#             elif user_shape == 4:
-#                 base = float(input('Triangle side 1: '))
-#                 height = float(input('Triangle side 2: '))
-#                 side3 = float(input('Triangle side 3: '))
-#                 t_perimeter = '{:.2f}'.format(p_triangle(base, height, side3))
-#                 print(f'Triangle perimeter: {t_perimeter}')
-#
-#         qcontinue = str(input('Continue (y/n): ')).lower().strip()
-#         while (qcontinue == 'y' or qcontinue == 'n') is False:
-#             qcontinue = str(input('Enter y or n: ')).lower().strip()
-#
-#         if qcontinue == 'y':
-#             continue
-#         elif qcontinue == 'n':
-#             print('PROGRAM DONE')
-#             quit()
+    def p_triangle(self):
+        perimeter = self.primary_number + self.secondary_number + self.tertiary_number
+        return perimeter
+
+    def a_circle(self):
+        area = math.pi * self.primary_number * self.primary_number
+        return area
+
+    def a_rectangle(self):
+        area = self.primary_number * self.secondary_number
+        return area
+
+    def a_square(self):
+        area = self.primary_number * self.primary_number
+        return area
+
+    def a_triangle(self):
+        '''
+        Use Heron's formula to find the area of a triangle given 3 sides
+        :return:
+        '''
+        a = self.primary_number
+        b = self.secondary_number
+        c = self.tertiary_number
+        s = a + b + c / 2
+        area = math.sqrt(s * (s - a) * (s - b) * (s - c))
+        return area
+
+    def reset(self):
+        '''
+        reset application to beginning state
+        :return:
+        '''
+        self.circle()
+        self.text_input_primary.setText('')
+        self.text_input_secondary.setText('')
+        self.text_input_tertiary.setText('')
+        self.label_area.setText('')
+        self.label_perimeter.setText('')
+
