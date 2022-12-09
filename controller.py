@@ -21,6 +21,10 @@ class Controller(QMainWindow, Ui_MainWindow):
         self.select_triangle.clicked.connect(lambda: self.triangle())
 
     def calculate(self):
+        """
+        Error handling for input and calculation display
+        :return:
+        """
         try:
             self.primary_number = float(self.text_input_primary.text())
         except ValueError:
@@ -54,6 +58,10 @@ class Controller(QMainWindow, Ui_MainWindow):
             self.label_perimeter.setText('{:.2f}'.format(self.p_triangle()))
 
     def circle(self):
+        """
+        Enables appropriate line edits and labels for circle calculation
+        :return:
+        """
         self.label_primary.setText('Radius')
         self.label_secondary.setText('')
         self.label_tertiary.setText('')
@@ -68,6 +76,10 @@ class Controller(QMainWindow, Ui_MainWindow):
         self.label_perimeter.setText('')
 
     def rectangle(self):
+        """
+        Enables appropriate line edits and labels for rectangle calculation
+        :return: 
+        """
         self.label_primary.setText('Length')
         self.label_secondary.setText('Width')
         self.label_tertiary.setText('')
@@ -82,6 +94,10 @@ class Controller(QMainWindow, Ui_MainWindow):
         self.label_perimeter.setText('')
 
     def square(self):
+        """
+        Enables appropriate line edits and labels for square calculation
+        :return: 
+        """
         self.label_primary.setText('Length')
         self.label_secondary.setText('')
         self.label_tertiary.setText('')
@@ -94,7 +110,12 @@ class Controller(QMainWindow, Ui_MainWindow):
         self.text_input_tertiary.setText('')
         self.label_area.setText('')
         self.label_perimeter.setText('')
+        
     def triangle(self):
+        """
+        Enables appropriate line edits and labels for triangle calculation
+        :return: 
+        """
         self.label_primary.setText('Side A')
         self.label_secondary.setText('Side B')
         self.label_tertiary.setText('Side C')
@@ -109,38 +130,66 @@ class Controller(QMainWindow, Ui_MainWindow):
         self.label_perimeter.setText('')
 
     def p_circle(self):
+        """
+        Find perimeter of a circle
+        :return: float
+        """
         perimeter = float(2 * math.pi * self.primary_number)
         return perimeter
 
-    def p_rectangle(self):
+    def p_rectangle(self): 
+        """
+        Find perimeter of a rectangle
+        :return: float
+        """
         perimeter = 2 * (self.primary_number + self.secondary_number)
         return perimeter
 
     def p_square(self):
+        """
+        Find perimeter of a square
+        :return: float
+        """
         perimeter = 4 * self.primary_number
         return perimeter
 
     def p_triangle(self):
+        """
+        Find perimeter of a triangle
+        :return: float
+        """
         perimeter = self.primary_number + self.secondary_number + self.tertiary_number
         return perimeter
 
     def a_circle(self):
+        """
+        Find area of a circle
+        :return: float
+        """
         area = math.pi * self.primary_number * self.primary_number
         return area
 
     def a_rectangle(self):
+        """
+        Find area of a rectangle
+        :return: float
+        """
         area = self.primary_number * self.secondary_number
         return area
 
     def a_square(self):
+        """
+        Find area of a square
+        :return: float
+        """
         area = self.primary_number * self.primary_number
         return area
 
     def a_triangle(self):
-        '''
+        """
         Use Heron's formula to find the area of a triangle given 3 sides
         :return:
-        '''
+        """
         a = self.primary_number
         b = self.secondary_number
         c = self.tertiary_number
@@ -149,10 +198,10 @@ class Controller(QMainWindow, Ui_MainWindow):
         return area
 
     def reset(self):
-        '''
+        """
         reset application to beginning state
         :return:
-        '''
+        """
         self.circle()
         self.text_input_primary.setText('')
         self.text_input_secondary.setText('')

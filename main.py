@@ -2,6 +2,10 @@ from controller import *
 
 
 def main():
+    """
+    Starts application and displays window
+    :return:
+    """
     application = QApplication([])
     window = Controller()
     window.show()
