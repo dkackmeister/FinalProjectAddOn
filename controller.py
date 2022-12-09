@@ -11,16 +11,36 @@ class Controller(QMainWindow, Ui_MainWindow):
 
         self.button_calculate.clicked.connect(lambda: self.calculate())
         self.button_reset.clicked.connect(lambda: self.reset())
-
+        self.select_circle.clicked.connect(lambda: self.circle())
+        self.select_rectangle.clicked.connect(lambda: self.rectangle())
+        self.select_square.clicked.connect(lambda: self.square())
+        self.select_triangle.clicked.connect(lambda: self.triangle())
 
     def calculate(self):
         primary_dimension = self.text_input_primary.text()
         secondary_dimension = self.text_input_secondary.text()
         tertiary_dimension = self.text_input_tertiary.text()
 
-        self.label_area.setText(primary_dimension)
+        self.label_area.setText()
+        self.label_perimeter.setText()
 
+    def circle(self):
+        self.label_primary.setText('Radius')
+        self.label_secondary.setText('')
+        self.label_tertiary.setText('')
+    def rectangle(self):
+        self.label_primary.setText('Length')
+        self.label_secondary.setText('Width')
+        self.label_tertiary.setText('')
 
+    def square(self):
+        self.label_primary.setText('Length')
+        self.label_secondary.setText('')
+        self.label_tertiary.setText('')
+    def triangle(self):
+        self.label_primary.setText('Side A')
+        self.label_secondary.setText('Side B')
+        self.label_tertiary.setText('Side C')
 
 
 
