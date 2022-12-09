@@ -1,5 +1,7 @@
 import tkinter
 import math
+
+
 def p_circle(radius):
     perimeter = float(2 * math.pi * radius)
     return perimeter
@@ -81,7 +83,7 @@ def main():
             elif user_shape == 2:
                 length = float(input('Rectangle length: '))
                 width = float(input('Rectangle width: '))
-                r_area = '{:.2f}'.format(area.a_rectangle(length, width))
+                r_area = '{:.2f}'.format(a_rectangle(length, width))
                 print(f'Rectangle area: {r_area}')
 
             elif user_shape == 3:
